@@ -87,7 +87,9 @@ def get_dog_by_pk(pk: int):
 def update_dog(pk: int, dog: Dog):
     if pk not in dogs_db:
         raise HTTPException(status_code=404, detail='The specified PK is not found.')
-    if pk != dog.pk:
+    if dog.pk is None:
+        dog.pk = pk
+    elif pk != dog.pk:
         raise HTTPException(status_code=403, detail='PK modification is not allowed.')
     dogs_db[pk] = dog
     return dog
